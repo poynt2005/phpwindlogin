@@ -14,12 +14,6 @@ require("core-js/modules/es.array.join");
 
 require("core-js/modules/es.array.map");
 
-require("core-js/modules/es.array.reduce");
-
-require("core-js/modules/es.date.to-iso-string");
-
-require("core-js/modules/es.date.to-string");
-
 require("core-js/modules/es.object.define-properties");
 
 require("core-js/modules/es.object.define-property");
@@ -229,66 +223,6 @@ var myRequest = function () {
             });
           });
         });
-      }
-    }, {
-      key: "loadCookieB64FromETC",
-      value: function loadCookieB64FromETC(b64Cookie, hostname) {
-        try {
-          var jsonFile = JSON.parse((0, _atob["default"])(b64Cookie)).filter(function (e) {
-            return e.domain == hostname;
-          }).map(function (e) {
-            var mapping = {
-              expirationDate: "expires",
-              name: "key",
-              sameSite: null,
-              session: null,
-              domain: "domain",
-              hostOnly: "hostOnly",
-              httpOnly: "httpOnly",
-              path: "path",
-              secure: "secure",
-              storeId: null,
-              value: "value",
-              id: null
-            };
-            var o2 = {};
-            Object.keys(e).forEach(function (r) {
-              if (!mapping.hasOwnProperty(r) || mapping[r] === null) return;
-
-              if (r == "expirationDate") {
-                o2[mapping.expirationDate] = new Date(e[r] * 1000).toISOString();
-              } else o2[mapping[r]] = e[r];
-            });
-            return o2;
-          }).reduce(function (a, e) {
-            return Object.defineProperty(a, e.key, {
-              value: e,
-              enumerable: true
-            });
-          }, {}),
-              dist = _defineProperty({}, hostname, {});
-
-          dist[hostname]["/"] = jsonFile;
-
-          _fs["default"].writeFileSync(cookiePath, JSON.stringify(dist), 'utf8');
-        } catch (e) {
-          throw Error({
-            method: 'myRequest.prototype.loadCookieB64FromETC',
-            message: err
-          });
-        }
-      }
-    }, {
-      key: "loadCookieB64",
-      value: function loadCookieB64(b64Cookie) {
-        try {
-          _fs["default"].writeFileSync(cookiePath, (0, _atob["default"])(b64Cookie), 'utf8');
-        } catch (e) {
-          throw Error({
-            method: 'myRequest.prototype.loadCookieB64',
-            message: err
-          });
-        }
       }
     }, {
       key: "getJar",
